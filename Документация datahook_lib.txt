@@ -1,22 +1,34 @@
 ДОКУМЕНТАЦИЯ DATAHOOK_LIB
 
+Описание:
+	Приветствую. Это документация к библиотеке-интерфейсу БД под названием datahook_lib.
+	В тексте используются термины:
+		принимает - необходимые аргументы для данной функции, указанные в порядке их передачи;
+		возвращает - результат работы функции, требующий обработки;
+		[str, bool, int] - типы данных;
+		выражения, такие как "error = no_result, если нет в базе", подразумевают {"error": "no_result"}. все коды ошибок - строки;
+		выражение "error = None, если авторизация пройдена", подразумевает {"error": None/null/nil (пустой тип)};
+		приписки, такие как "[служебная], [админ], [юзер], [оба]" показывают, с какими правами доступа может использоваться функция
+			(вызов функции с приписками "[админ], [юзер]" требует первоначального вызова функции is_admin).
+	Пример SQL-команд таблиц БД, которые поддерживает эта библиотека, указан в файле sql_db_example.txt.
+	Выполнение функции session_check при обращении к БД выполняется автоматически, её предназначение - узнать, имеет ли право человек просматриивать ту или иную страницу сайта.
+
 инициализация библиотеки
 	название подключаемой базы данных указывается в файле hook_config.py в графе database
-	пример SQL-команд таблиц БД указан в файле sql_db_example.txt
 
-func str_xor
+func str_xor [служебная]
 	принимает: 
 		две строки
 	возвращает: 
 		[bool] результат исключающего ИЛИ для двух строк
 
-func get_date
+func get_date [служебная]
 	описание:
 		получение сегодняшней даты (DD/MM/YYYY)
 	возвращает:
 		[str] - дата
 
-func login_check_format / product_name_check_format
+func login_check_format / product_name_check_format [служебная]
 	принимает: 
 		login [str] - проверяемая строка
 	возвращает: 
@@ -27,13 +39,13 @@ func login_check_format / product_name_check_format
 	описание: 
 		проверка вводимых данных
 
-func hash_password
+func hash_password [служебная]
 	принимает: 
 		password [str] - хэшируемая строка
 	возвращает: 
 		[str] - хэшированная строка
 
-func check_password
+func check_password [служебная]
 	принимает: 
 		stored_password [str] - пароль в бд
 		provided_password [str] - введённый пароль
@@ -72,7 +84,7 @@ func session_check
 	описание: 
 		проверка сессии пользователя на права доступа к странице
 
-func fetch_inventory
+func fetch_inventory [оба]
 	описание:
 		получение информации о запрашиваемых объектах инвентаря
 	замечание:
@@ -103,7 +115,7 @@ func fetch_inventory
 			колонки: ID предмета, имя, статус, кол-во предметов в распоряжении, время создания заказа, комментарий к заказу
 			пример: {'error': None, 'results': [(1, 'ctestinventoryitem1', 1, 5, 09/01/2025, 'TestDescription1'), (3, 'btestinventoryitem3', 2, 2, 09/01/2025, 'TestDescription3')]}
 
-func pick_inventory_element_by_id
+func pick_inventory_element_by_id [оба]
 	описание:
 		дополнительный параметр поиска, вывод информации об определенном объекте с определенным ID предмета
 	принимает:
@@ -118,7 +130,7 @@ func pick_inventory_element_by_id
 		- колонки: ID предмета, имя, кол-во в инвентаре, статус (0-2)
 		пример: {'error': None, 'result': (3, 'btestinventoryitem3', 2, 2)}
 
-func remove_from_inventory
+func remove_from_inventory [админ]
 	описание:
 		удаление элемента из инвентаря и запись о действии в лог
 	принимает:
@@ -131,7 +143,7 @@ func remove_from_inventory
 		- error = no_result, если объект не найден
 		- error = None, если операция выполнена успешно
 
-func add_to_inventory
+func add_to_inventory [админ]
 	описание:
 		добавление элемента в инвентарь и запись о действии в лог
 	принимает:
@@ -150,7 +162,7 @@ func add_to_inventory
 		- error = None, если операция выполнена успешно
 		-- object_id [str] - ID созданного в инвентаре предмета (существует только когда error = None)
 
-func edit_inventory_object
+func edit_inventory_object [админ]
 	описание:
 		изменение элемента по идентификатору и запись о действии в лог
 	принимает:
@@ -168,7 +180,7 @@ func edit_inventory_object
 		- error = no_result, если объект не найден
 		- error = None, если операция выполнена успешно
 
-func pin_inventory_element
+func pin_inventory_element [админ]
 	описание:
 		закрепление элемента инвентаря за каким-либо пользователем
 	принимает:
@@ -187,7 +199,7 @@ func pin_inventory_element
 		- из инвентаря вычитаются прикрепляемые объекты
 		- когда прикрепляется новый по состоянию предмет, его статус изменяется на использованный
 
-func register_user
+func register_user [админ]
 	описание:
 		регистрация нового пользователя
 	принимает:
@@ -201,7 +213,7 @@ func register_user
 		- error = user_existing, если пользователь уже существует в базе
 		- error = None, если операция выполнена успешно
 
-func assign_administrator
+func assign_administrator [админ]
 	описание:
 		назначение пользователя администратором
 	принимает:
@@ -212,7 +224,7 @@ func assign_administrator
 		- error = no_user, если пользователь не существует в базе
 		- error = None, если операция выполнена успешно
 
-func assign_user
+func assign_user [админ]
 	описание:
 		разжалование администратора
 	принимает:
@@ -223,7 +235,7 @@ func assign_user
 		- error = no_user, если пользователь не существует в базе
 		- error = None, если операция выполнена успешно
 
-func is_admin
+func is_admin [служебная]
 	описание:
 		функция, выдающая результат прав доступа пользователя по ключу сессии
 	принимает:
@@ -235,7 +247,7 @@ func is_admin
 		- error = None, если операция выполнена успешно
 		- result существует только когда error = None и равен True, когда клиент - Администратор, если нет, то False
 
-func create_request
+func create_request [юзер]
 	описание:
 		функция, создающая заявку от пользователя
 	принимает:
@@ -255,7 +267,7 @@ func create_request
 		- error = request_already_exists, если точно такая же заявка уже существует
 		- error = None, если операция выполнена успешно
 
-func fetch_all_requests
+func fetch_all_requests [админ]
 	описание:
 		возвращает заявки в порядке их создания по возрастанию (используется администратором)
 	принимает:
@@ -270,7 +282,7 @@ func fetch_all_requests
 	пример:
 		{'error': None, 'results': [(1, 1, 'edt-test item итем1', 'test2', 11, '11/01/2025', 'h'), (2, 1, 'edt-test item итем1', 'test2', 11, '11/01/2025', '')]}
 
-func approve_request
+func approve_request [админ]
 	описание:
 		принять заявку и удалить ее из списка заявок
 	примечание:
@@ -284,7 +296,7 @@ func approve_request
 		- error = no_user/no_result/not_enough_amount в соответствии с pin_inventory_element
 		- error = None, если операция выполнена успешно
 
-func decline_request
+func decline_request [админ]
 	описание:
 		отмена заявки (удаление заявки) [может быть использвано только администратором]
 	принимает:
@@ -294,7 +306,7 @@ func decline_request
 		- error = no_result, если заявки не существует
 		- error = None, если операция выполнена успешно
 
-func cancel_request
+func cancel_request [юзер]
 	описание:
 		отмена заявки (удаление заявки) с учётом наличия прав на собственность заявки [может быть использвано только пользователем]
 	принимает:
@@ -307,7 +319,7 @@ func cancel_request
 		- error = no_result, если заявки не существует / нет доступа к заявке
 		- error = None, если операция выполнена успешно
 
-func fetch_sent_requests
+func fetch_sent_requests [юзер]
 	описание:
 		вывод данных об отправленных пользователем заявках, которые ещё не были рассмотрены администрацией
 	принимает:
@@ -322,7 +334,7 @@ func fetch_sent_requests
 	пример:
 		{'error': None, 'results': [(6, 'to_pin_element', 1, 'edt-test item итем1', 2, '11/01/2025', 'tst'), (7, 'to_pin_element', 5, 'edt-test item итем2', 2, '11/01/2025', 'tst')]}
 
-func end_session
+func end_session [оба]
 	описание:
 		выход пользователя из системы, завершение сессии
 	принимает:
@@ -333,7 +345,7 @@ func end_session
 		- error = session_error, если сессия истекла
 		- error = None, если операция выполнена успешно
 
-func fetch_all_users
+func fetch_all_users [админ]
 	описание:
 		получение списка пользователей по критерию типа прав
 	принимает:
@@ -349,7 +361,7 @@ func fetch_all_users
 	пример:
 		{'error': None, 'results': [(2, 'test2', 'Test2', None, '11/01/2025'), (3, 'test3', 'Test3', None, '11/01/2025'), (4, 'createtest1', 'CTest1', '', '11/01/2025')]}
 
-func terminate_all_sessions_of
+func terminate_all_sessions_of [админ]
 	описание:
 		"убить" все сессии пользователя
 	принимает:
@@ -359,7 +371,7 @@ func terminate_all_sessions_of
 		- error = no_result, если все сессии пользователя закрыты
 		- error = None, если операция выполнена успешно
 
-func change_password
+func change_password [оба]
 	описание:
 		изменение пароля и "убийство" всех сессий
 	принимает:
@@ -374,7 +386,7 @@ func change_password
 		- error = no_result, если все сессии пользователя закрыты; в соответствии с terminate_all_sessions_of
 		- error = None, если операция выполнена успешно
 
-func delete_user_of
+func delete_user_of [админ]
 	описание:
 		удаление профиля, его принадлежностей, заявок и истории сессий [может использоваться только администратором]
 	принимает:
@@ -384,7 +396,7 @@ func delete_user_of
 		- error = no_result, если пользователь не найден
 		- error = None, если операция выполнена успешно
 
-func fetch_my_belongings
+func fetch_my_belongings [юзер]
 	описание:
 		получение информации о закрепленных со стороны пользователя элементов
 	принимает:
@@ -400,7 +412,7 @@ func fetch_my_belongings
 	пример:
 		{'error': None, 'results': [(4, 7, 'тестик плотный', 10, '11/01/2025', 'testDescr'), (5, 6, 'adding_item test 1488 тест2', 40, '11/01/2025', 'testDescr3')]}
 
-func return_my_belonging
+func return_my_belonging [юзер]
 	описание:
 		вернуть элемент в инвентарь, добровольно открепить его от профиля
 	примечание:
@@ -416,7 +428,7 @@ func return_my_belonging
 		- error = no_permission, если выбрана чужая принадлежность
 		- error = None, если операция выполнена успешно
 
-func add_to_plan
+func add_to_plan [админ]
 	описание:
 		добавление элемента в план закупок
 	принимает:
@@ -425,7 +437,7 @@ func add_to_plan
 		amount [int] - количество
 		supplier_name [str] - название поставщика
 
-func remove_from_plan
+func remove_from_plan [админ]
 	описание:
 		удаление элемента из плана закупок
 	принимает:
@@ -435,7 +447,7 @@ func remove_from_plan
 		- error = no_result, если нет элемента с таким ID
 		- error = None, если операция выполнена успешно
 
-func fetch_plan
+func fetch_plan [админ]
 	описание:
 		получение списка элементов в плане закупок
 	возвращает:
@@ -446,7 +458,7 @@ func fetch_plan
 	пример:
 		{'error': None, 'results': [(2, 'a', 1, 1, 'a'), (3, 'arbuz', 1, 2, 'OOO LOL')]}
 
-func create_report
+func create_report [админ]
 	описание:
 		создание отчета
 	возвращет:
