@@ -837,7 +837,7 @@ def create_report():
         elif len(amount) == 5: amount = f"    {amount}   "
         elif len(amount) >= 6: amount = " " + amount + " "
 
-        using_elements = using_elements + eid + "|" + amount + "| " + name + "\n"
+        using_elements = using_elements + "\t" + eid + "|" + amount + "| " + name + "\n"
 
     # подгон элементов под вторую таблицу
     cursor.execute("SELECT SUM(amount) FROM inventory WHERE status = 0")
@@ -863,7 +863,7 @@ def create_report():
         elif len(eid) == 5: eid = f" {eid} "
         else: eid += " "
 
-        broken_elements = broken_elements + eid + "| " + name + "\n"
+        broken_elements = broken_elements + "\t" + eid + "| " + name + "\n"
 
     form = f"""ОТЧЁТ ПО ИСПОЛЬЗОВАНИЮ И СОСТОЯНИЮ ИНВЕНТАРЯ
     Актуален на: {get_date()}
@@ -871,7 +871,7 @@ def create_report():
     Подробности об использовании инвентаря:
     Всего в использовании находится {using_elements_number} предметов.
     Элементы в использовании:
-       id  | количество |   наименование
+           id  | количество |   наименование
     {using_elements}
     
     Подробности о состоянии элементов инвентаря:
@@ -881,7 +881,7 @@ def create_report():
     Всего сломанных предметов: {broken_elements_number}
 
     Сломанные элементы:
-       id  |   наименование
+           id  |   наименование
     {broken_elements}
 
     Данный отчёт составлен автоматически.
