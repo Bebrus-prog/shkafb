@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders Page</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'inv/stil\'.css' %}">
+</head>
+<body>
+    <div class="content">
+        <div class="navbar">
+            <a href="main.html">Главная</a>
+            <a href="profile.html">Профиль</a>
+            <a href="orders.html">Заказы</a>
+        </div>
+        <div class="main-content">
+            <h2>Ваши заказы</h2>
+            <div class="orders-container">
+                <div class="order">
+                    <h3>Нет заказов</h3>
+                    <p>-</p>
+                    <p>-</p>
+                </div>
+            </div>
+            <h2>Действующие заказы</h2>
+            <div class="available-container">
+                <div class="item">
+                </div>
+            </div>
+            <h2>Добавить новый заказ</h2>
+            <form id="new-order-form">
+                <div class="form-group">
+                    <label for="new-order">Название инвентаря:</label>
+                    <input type="text" id="new-order" name="new-order" required>
+                </div>
+                <button type="submit">Добавить заказ</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
