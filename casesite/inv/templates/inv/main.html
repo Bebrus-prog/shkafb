@@ -99,6 +99,7 @@
             background-color: #f2f2f2;
         }
     </style>
+    <script src="https://unpkg.com/htmlincludejs"></script>
 </head>
 <body>
     <div class="sidebar">
@@ -128,11 +129,7 @@
         </div>
     </div>
     <div class="content">
-        <div class="navbar">
-            <a href="main.html">Главная</a>
-            <a href="profile.html">Профиль</a>
-            <a href="orders.html">Заказы</a>
-        </div>
+        {% include "inv/navbar.html" %} 
         <div class="main-content">
             <table class="board">
                 <tr>
