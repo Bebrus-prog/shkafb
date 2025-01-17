@@ -2,7 +2,7 @@ import sqlite3
 import hashlib
 import time
 import datetime
-import hook_config
+from . import hook_config
 
 # загрузка конфигурации программы
 db = sqlite3.connect(hook_config.DATABASE_NAME)
