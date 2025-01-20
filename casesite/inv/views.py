@@ -3,6 +3,12 @@ from .datahook import datahook_lib
 from django.http import HttpResponseRedirect
 
 def main(request):
+    session = datahook_lib.session_check(request.session.session_key, request.META['REMOTE_ADDR'])
+    if session['error'] == 'no_result':
+        redirect('/index') 
+    else:
+        ...
+    print(session)
     return render(request, 'inv/main.html')
 
 def index(request):
@@ -10,8 +16,9 @@ def index(request):
         data = request.POST
         login = data['login']
         password = data['password']
-        datahook_lib.fetch_login(login, password, request.session.session_key, request.META.REMOTE_ADDR) 
-        return redirect()
+        funcreturn = datahook_lib.fetch_login(login, password, request.session.session_key, request.META['REMOTE_ADDR'])
+        print(f'funcreturn = {funcreturn}')
+        return redirect('/')
     return render(request, 'inv/index.html')
 
 def orders(request):

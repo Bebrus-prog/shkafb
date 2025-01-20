@@ -5,7 +5,7 @@ import datetime
 from . import hook_config
 
 # загрузка конфигурации программы
-db = sqlite3.connect(hook_config.DATABASE_NAME)
+db = sqlite3.connect(hook_config.DATABASE_NAME, check_same_thread=False)
 cursor = db.cursor()
 
 def str_xor(str1: str, str2: str):
