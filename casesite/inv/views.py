@@ -5,21 +5,25 @@ from django.http import HttpResponseRedirect
 def main(request):
     session = datahook_lib.session_check(request.session.session_key, request.META['REMOTE_ADDR'])
     if session['error'] == 'no_result':
-        redirect('/index') 
+        return redirect('/index') 
     else:
         ...
     print(session)
     return render(request, 'inv/main.html')
 
 def index(request):
+    if not request.session.session_key:
+            request.session.create()
     if request.POST:
-        data = request.POST
-        login = data['login']
-        password = data['password']
+        postdata = request.POST
+        login = postdata['login']
+        password = postdata['password']
         funcreturn = datahook_lib.fetch_login(login, password, request.session.session_key, request.META['REMOTE_ADDR'])
         print(f'funcreturn = {funcreturn}')
-        return redirect('/')
+        if not funcreturn['error']:
+            return redirect('/')
     return render(request, 'inv/index.html')
+#TODO: login verification everywhere
 
 def orders(request):
     return render(request, 'inv/orders.html')
