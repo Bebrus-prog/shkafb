@@ -2,13 +2,16 @@ from django.shortcuts import render, redirect
 from .datahook import datahook_lib
 from django.http import HttpResponseRedirect
 
+def check_login(func):
+    def wrapper(request):
+        session = datahook_lib.session_check(request.session.session_key, request.META['REMOTE_ADDR'])
+        if session['error'] == 'no_result':
+            return redirect('/index') 
+        return func(request)
+    return wrapper
+
+@check_login
 def main(request):
-    session = datahook_lib.session_check(request.session.session_key, request.META['REMOTE_ADDR'])
-    if session['error'] == 'no_result':
-        return redirect('/index') 
-    else:
-        ...
-    print(session)
     return render(request, 'inv/main.html')
 
 def index(request):
@@ -19,14 +22,14 @@ def index(request):
         login = postdata['login']
         password = postdata['password']
         funcreturn = datahook_lib.fetch_login(login, password, request.session.session_key, request.META['REMOTE_ADDR'])
-        print(f'funcreturn = {funcreturn}')
         if not funcreturn['error']:
             return redirect('/')
     return render(request, 'inv/index.html')
-#TODO: login verification everywhere
 
+@check_login
 def orders(request):
     return render(request, 'inv/orders.html')
 
+@check_login
 def profile(request):
     return render(request, 'inv/profile.html')
