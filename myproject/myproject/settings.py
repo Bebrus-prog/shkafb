@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-^m-4_j+5o#2oodbd5p1l@ehtjoszz%p(#)^+(liw75j^d(8y-p'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['shkafb.ru', 'www.shkafb.ru', '0.0.0.0', '192.168.2.4', '127.0.0.1']
 
@@ -73,12 +73,7 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+DATABASES = {}
 
 
 # Password validation
