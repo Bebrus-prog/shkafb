@@ -31,7 +31,6 @@ ALLOWED_HOSTS = ['shkafb.ru', 'www.shkafb.ru', '0.0.0.0', '192.168.2.4', '127.0.
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
