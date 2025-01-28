@@ -49,7 +49,7 @@ def profile(request):
 def admin(request):
     context = {}
     context['inventory'] = datahook_lib.fetch_inventory()
-    context['users'] = datahook_lib.fetch_all_users()
+    context['users'] = datahook_lib.fetch_all_users('user')
     return render(request, 'inv/admin.html', context=context)
 
 def test(request):
@@ -61,3 +61,8 @@ def test(request):
 def logout(request):
     datahook_lib.end_session(request.session.session_key, request.META['REMOTE_ADDR'])
     return redirect('/index/')
+
+def magic(request, data):
+    print(data)
+    return redirect('test')
+    
