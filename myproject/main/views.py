@@ -21,7 +21,9 @@ def check_login(admin_req=False):
 
 @check_login()
 def main(request):
-    return render(request, 'inv/main.html')
+    context = {}
+    context['inventory'] = datahook_lib.fetch_inventory()
+    return render(request, 'inv/main.html', context=context)
 
 def index(request):
     if not request.session.session_key:
@@ -45,7 +47,10 @@ def profile(request):
 
 @check_login(admin_req=True)
 def admin(request):
-    return render(request, 'inv/admin.html')
+    context = {}
+    context['inventory'] = datahook_lib.fetch_inventory()
+    context['users'] = datahook_lib.fetch_all_users()
+    return render(request, 'inv/admin.html', context=context)
 
 def test(request):
     context = {}
