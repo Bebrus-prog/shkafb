@@ -130,14 +130,30 @@
     <div class="content">
         {% include 'inv/navbar.html' %}
         <div class="main-content">
+
             <table class="board">
                 <tr>
+                    <th>id</th>
+                    <th>Название</th>
                     <th>Категория</th>
-                    <th>Состояние</th>
                     <th>Наличие</th>
+                    <th>Заказать</th>
                 </tr>
-                
-                
+                {% for id, name, a, b in results %}
+                <tr>
+                    <td>{{id}}</td>
+                    <td>{{name}}</td>
+                    <td>{{a}}</td>
+                    <td>{{b}}</td>
+                    <td>
+                        <form action="{% url 'order' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="item_id" value="{{id}}">
+                            <button type="submit">Заказать</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
             </table>
         </div>
     </div>

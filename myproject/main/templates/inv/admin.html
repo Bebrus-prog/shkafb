@@ -158,12 +158,14 @@
                         <th>Количество</th>
                         <th>Действия</th>
                     </tr>
+                    {% for id, name, a, b in results %}
                     <tr>
-                        <td>Элемент 1</td>
-                        <td>10</td>
-                        <td><button>Редактировать</button> <button>Удалить</button></td>
+                        <th>{{id}}</th> 
+                        <th>{{name}}</th> 
+                        <th>{{a}}</th> 
+                        <th>{{b}}</th>
                     </tr>
-                    <!-- Добавьте больше строк по мере необходимости -->
+                {% endfor %} 
                 </table>
             </div>
             <div class="admin_board" id="users">
@@ -189,7 +191,6 @@
                         <td>Пользователь</td>
                         <td><button>Назначить</button> <button>Удалить</button></td>
                     </tr>
-                    <!-- Добавьте больше строк по мере необходимости -->
                 </table>
             </div>
             <div class="admin_board" id="requests">
@@ -207,7 +208,6 @@
                         <td>В ожидании</td>
                         <td><button>Просмотреть</button></td>
                     </tr>
-                    <!-- Добавьте больше строк по мере необходимости -->
                 </table>
             </div>
             <div class="admin_board" id="purchase_plan">

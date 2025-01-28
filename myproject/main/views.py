@@ -10,7 +10,6 @@ def check_login(admin_req=False):
             if session['error'] == 'no_result':
                 return redirect('/index') 
             if session['error'] == 'no_permission':
-                # messages.warning(request, 'У вас нет доступа к этой странице')
                 if admin_req:
                     return redirect('/')
                 else:
@@ -49,7 +48,7 @@ def profile(request):
 def admin(request):
     context = {}
     context['inventory'] = datahook_lib.fetch_inventory()
-    context['users'] = datahook_lib.fetch_all_users()
+    context['users'] = datahook_lib.fetch_all_users('user')
     return render(request, 'inv/admin.html', context=context)
 
 def test(request):
