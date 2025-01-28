@@ -52,3 +52,7 @@ def test(request):
     context = datahook_lib.fetch_inventory()
     print(context)
     return render(request, 'inv/test.html', context=context)
+
+def logout(request):
+    datahook_lib.end_session(request.session.session_key, request.META['REMOTE_ADDR'])
+    return redirect('/index/')
