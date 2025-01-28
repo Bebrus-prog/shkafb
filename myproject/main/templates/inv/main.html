@@ -98,6 +98,72 @@
         .board th {
             background-color: #f2f2f2;
         }
+
+
+        /* Стили для модального окна */
+        .modal {
+            display: none; /* Скрыто по умолчанию */
+            position: fixed; /* Остается на месте */
+            z-index: 1; /* Располагается поверх всего */
+            left: 0;
+            top: 0;
+            width: 100%; /* Ширина экрана */
+            height: 100%; /* Высота экрана */
+            overflow: auto; /* Включает прокрутку, если требуется */
+            background-color: rgba(0,0,0,0.4); /* Затемнение фона */
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* Центрирование модального окна */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 30%; /* Ширина модального окна */
+            position: relative;
+            border-radius: 8px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            right: 10px;
+            top: 5px;
+            cursor: pointer;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+        }
+        .modal h2 {
+            text-align: center;
+        }
+        .modal label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .modal input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .modal button {
+            width: 100%;
+            padding: 10px;
+            background-color: #5cb85c;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .modal button:hover {
+            background-color: #4cae4c;
+        }
     </style>
 </head>
 <body>
@@ -130,7 +196,6 @@
     <div class="content">
         {% include 'inv/navbar.html' %}
         <div class="main-content">
-
             <table class="board">
                 <tr>
                     <th>id</th>
@@ -146,16 +211,52 @@
                     <td>{{a}}</td>
                     <td>{{b}}</td>
                     <td>
-                        <form action="{% url 'order' %}" method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="item_id" value="{{id}}">
-                            <button type="submit">Заказать</button>
-                        </form>
+                        <!-- Кнопка для открытия модального окна -->
+                        <button type="button" onclick="openModal({{id}})">Заказать</button>
                     </td>
                 </tr>
                 {% endfor %}
             </table>
         </div>
     </div>
+
+
+    <!-- Модальное окно -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Подтвердите заказ</h2>
+            <form id="orderForm" action="{% url 'order' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="item_id" id="modalItemId" value="">
+                <label for="quantity">Количество:</label>
+                <input type="number" id="quantity" name="quantity" min="1" value="1">
+                <button type="submit">Подтвердить заказ</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Функция для открытия модального окна
+        function openModal(itemId) {
+            // Устанавливаем значение скрытого поля item_id в форме модального окна
+            document.getElementById('modalItemId').value = itemId;
+            // Отображаем модальное окно
+            document.getElementById('orderModal').style.display = "block";
+        }
+
+        // Функция для закрытия модального окна
+        function closeModal() {
+            document.getElementById('orderModal').style.display = "none";
+        }
+
+        // Закрытие модального окна при клике вне его области
+        window.onclick = function(event) {
+            var modal = document.getElementById('orderModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 </body>
 </html>
