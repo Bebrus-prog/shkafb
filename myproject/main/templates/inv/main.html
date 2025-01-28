@@ -99,7 +99,6 @@
             background-color: #f2f2f2;
         }
 
-
         /* Стили для модального окна */
         .modal {
             display: none; /* Скрыто по умолчанию */
@@ -212,7 +211,7 @@
                     <td>{{b}}</td>
                     <td>
                         <!-- Кнопка для открытия модального окна -->
-                        <button type="button" onclick="openModal({{id}})">Заказать</button>
+                        <button type="button" onclick="openModal({{id}}, '{{name}}')">Заказать</button>
                     </td>
                 </tr>
                 {% endfor %}
@@ -220,12 +219,13 @@
         </div>
     </div>
 
-
     <!-- Модальное окно -->
     <div id="orderModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
             <h2>Подтвердите заказ</h2>
+            <p id="modalItemInfo">ID товара: <span id="modalItemIdDisplay"></span></p>
+            <p id="modalItemNameDisplay">Название товара: <span id="modalItemName"></span></p>
             <form id="orderForm" action="{% url 'order' %}" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="item_id" id="modalItemId" value="">
@@ -238,9 +238,13 @@
 
     <script>
         // Функция для открытия модального окна
-        function openModal(itemId) {
+        function openModal(itemId, itemName) {
             // Устанавливаем значение скрытого поля item_id в форме модального окна
             document.getElementById('modalItemId').value = itemId;
+            // Отображаем ID товара в модальном окне
+            document.getElementById('modalItemIdDisplay').innerText = itemId;
+            // Отображаем название товара в модальном окне
+            document.getElementById('modalItemName').innerText = itemName;
             // Отображаем модальное окно
             document.getElementById('orderModal').style.display = "block";
         }

@@ -62,5 +62,6 @@ def logout(request):
     return redirect('/index/')
 
 def create_request(request):
+    print(request.POST)
     datahook_lib.create_request('to_pin_element', request.POST['item_id'], 52, request.session.session_key, request.META['REMOTE_ADDR'])
     return redirect('/')
