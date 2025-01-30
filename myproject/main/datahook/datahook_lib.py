@@ -240,7 +240,6 @@ def remove_from_inventory(eid: int, session_key: str, ip_addr: str):
         cursor.execute("DELETE FROM inventory WHERE id = ?", (eid,))
         cursor.execute("DELETE FROM belongings WHERE obj_id = ?", (eid,))
         cursor.execute("DELETE FROM pending_requests WHERE obj_id = ?", (eid,))
-        cursor.execute("INSERT INTO logs (action, obj_id, userid, time) VALUES ('REM', ?, ?, ?)", (eid, uid, int(time.time())))
         db.commit()
         return {"error": None}
 
@@ -272,7 +271,6 @@ def add_to_inventory(name: str, amount: int, status: int, session_key: str, ip_a
         db.commit()
         cursor.execute("SELECT id FROM inventory WHERE name = ?", (name,))
         eid = cursor.fetchone()[0]
-        cursor.execute("INSERT INTO logs (action, obj_id, userid, time) VALUES ('ADD', ?, ?, ?)", (eid, uid, int(time.time())))
         db.commit()
 
         # object_id содержит ID созданного в инвентаре предмета
@@ -303,7 +301,6 @@ def edit_inventory_object(eid: int, new_name: str, new_amount: str, new_status: 
         uid = uid[0]
         # изменение элемента и запись о действии в лог
         cursor.execute("UPDATE inventory SET name = ?, amount = ?, status = ? WHERE id = ?", (new_name, new_amount, new_status, eid))
-        cursor.execute("INSERT INTO logs (action, obj_id, userid, time) VALUES ('EDT', ?, ?, ?)", (eid, uid, int(time.time())))
         db.commit()
         return {"error": None}
 
