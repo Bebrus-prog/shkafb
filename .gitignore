@@ -171,4 +171,4 @@ cython_debug/
 .pypirc
 
 .db
-myproject/database.db
+database.db
