@@ -10,7 +10,6 @@ def check_login(admin_req=False):
             if session['error'] == 'no_result':
                 return redirect('/index') 
             if session['error'] == 'no_permission':
-                # messages.warning(request, 'У вас нет доступа к этой странице')
                 if admin_req:
                     return redirect('/')
                 else:
@@ -62,7 +61,7 @@ def logout(request):
     datahook_lib.end_session(request.session.session_key, request.META['REMOTE_ADDR'])
     return redirect('/index/')
 
-def magic(request, data):
-    print(data)
-    return redirect('test')
-    
+def create_request(request):
+    print(request.POST)
+    datahook_lib.create_request('to_pin_element', request.POST['item_id'], int(request.POST['quantity']), request.session.session_key, request.META['REMOTE_ADDR'])
+    return redirect('/')
