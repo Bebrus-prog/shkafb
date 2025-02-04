@@ -76,11 +76,20 @@
         .profile-section button:hover {
             background-color: #4cae4c;
         }
+        .logout_button {
+        background-color: red; /* Красный фон */
+        color: white;          /* Белый текст */
+        padding: 10px 20px;    /* Внутренние отступы для увеличения размера кнопки */
+        border: none;          /* Убираем границу */
+        border-radius: 5px;    /* Скругляем углы */
+        cursor: pointer;       /* Изменяем курсор при наведении */
+        margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
     <div class="content">
-        {% include "inv/navbar.html" %}
+        {% include 'inv/navbar.html' %}
         <div class="profile-section">
             <h2>Профиль</h2>
             <div class="profile-info">
@@ -88,15 +97,17 @@
                 <input type="text" id="name" name="name" value="" readonly>
                 <label for="login">Логин:</label>
                 <input type="text" id="login" name="login" value="" readonly>
-                <label for="email">Электронная почта:</label>
-                <input type="email" id="email" name="email" value="" readonly>
-                <label for="phone">Телефон:</label>
-                <input type="text" id="phone" name="phone" value="" readonly>
                 <label for="role">Роль:</label>
                 <input type="text" id="role" name="role" value="Ученик" readonly>
-                <label for="registration-date">Дата регистрации:</label>
-                <input type="text" id="registration-date" name="registration-date" value="" readonly>
             </div>
         </div>
+        <div>
+            <form action="{% url 'logout' %}">
+                <button class="logout_button">Выход</button>
+            </form>
+        </div>
         <div class="profile-section">
-            <h2>История заказов</h2>
+                <h2>История заказов</h2>
+        </div>
+    </div>
+</body>

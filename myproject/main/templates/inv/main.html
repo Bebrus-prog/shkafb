@@ -99,7 +99,6 @@
             background-color: #f2f2f2;
         }
     </style>
-    <script src="https://unpkg.com/htmlincludejs"></script>
 </head>
 <body>
     <div class="sidebar">
@@ -129,7 +128,7 @@
         </div>
     </div>
     <div class="content">
-        {% include "inv/navbar.html" %} 
+        {% include 'inv/navbar.html' %}
         <div class="main-content">
             <table>
                 <tr>
@@ -138,6 +137,7 @@
                     <td>Наличие</td>
                     <td>Состяние</td>
                 </tr>
+<<<<<<< HEAD
             {% for id, name, a, b in results %}
                 <tr>
                     <th>{{id}}</th> 
@@ -146,6 +146,10 @@
                     <th>{{b}}</th>
                 </tr>
             {% endfor %}
+=======
+                
+                
+>>>>>>> tables_on_back
             </table>
         </div>
     </div>

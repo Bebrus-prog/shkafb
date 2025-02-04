@@ -29,7 +29,13 @@
         <th>{{id}}</th> 
         <th>{{name}}</th> 
         <th>{{a}}</th> 
-        <th>{{b}}</th>
+        <th>
+          <a href="{% url 'do_magic' data=id %}">
+            <button>
+              adadada
+            </button>
+          </a>
+        </th>
     </tr>
 {% endfor %}
 </table>
