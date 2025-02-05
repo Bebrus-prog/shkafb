@@ -199,17 +199,32 @@
                     <tr>
                         <th>ID заявки</th>
                         <th>Пользователь</th>
-                        <th>Статус</th>
+                        <th>Предмет</th>
+                        <th>Количество</th>
+                        <th>Дата</th>
                         <th>Действия</th>
                     </tr>
+                    {% for req in requests %}
                     <tr>
-                        <td>1</td>
-                        <td>Пользователь 1</td>
-                        <td>В ожидании</td>
-                        <td><button>Просмотреть</button></td>
+                        <td>{{ req.0 }}</td>  <!-- ID заявки -->
+                        <td>{{ req.3 }}</td>  <!-- Никнейм пользователя -->
+                        <td>{{ req.2 }}</td>  <!-- Название предмета -->
+                        <td>{{ req.4 }}</td>  <!-- Количество -->
+                        <td>{{ req.5 }}</td>  <!-- Дата -->
+                        <td>
+                            <form action="{% url 'approve_request' req.0 %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit">✅ Одобрить</button>
+                            </form>
+                            <form action="{% url 'decline_request' req.0 %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit">❌ Отклонить</button>
+                            </form>
+                        </td>
                     </tr>
+                    {% endfor %}
                 </table>
-            </div>
+            </div> 
             <div class="admin_board" id="purchase_plan">
                 <h2>План закупок</h2>
                 <form>

@@ -65,3 +65,57 @@ def create_request(request):
     print(request.POST)
     datahook_lib.create_request('to_pin_element', request.POST['item_id'], int(request.POST['quantity']), request.session.session_key, request.META['REMOTE_ADDR'])
     return redirect('/')
+
+def create_request_view(request):
+    if request.method == 'POST':
+        item_id = request.POST.get('item_id')
+        quantity = int(request.POST.get('quantity'))
+        
+        # Вызов функции из библиотеки datahook_lib
+        result = datahook_lib.create_request(
+            r_type="to_pin_element",
+            eid=item_id,
+            amount=quantity,
+            session_key=request.session.session_key,
+            ip_addr=request.META['REMOTE_ADDR'],
+            description=""  # Опционально
+        )
+        
+        if result['error']:
+            messages.error(request, f"Ошибка: {result['error']}")
+        else:
+            messages.success(request, "Заявка отправлена администратору!")
+        
+        return redirect('main')
+    
+@check_login(admin_req=True)
+def admin(request):
+    context = {}
+    
+    # Получение данных
+    context['inventory'] = datahook_lib.fetch_inventory()
+    context['users'] = datahook_lib.fetch_all_users('user')
+    
+    # Получение всех заявок
+    requests_data = datahook_lib.fetch_all_requests(r_type="to_pin_element")
+    context['requests'] = requests_data['results'] if not requests_data['error'] else []
+    
+    return render(request, 'inv/admin.html', context=context)
+
+@check_login(admin_req=True)
+def approve_request(request, request_id):
+    result = datahook_lib.approve_request(request_id=request_id)
+    if result['error']:
+        messages.error(request, f"Ошибка: {result['error']}")
+    else:
+        messages.success(request, "Заявка одобрена!")
+    return redirect('admin')
+
+@check_login(admin_req=True)
+def decline_request(request, request_id):
+    result = datahook_lib.decline_request(request_id=request_id)
+    if result['error']:
+        messages.error(request, f"Ошибка: {result['error']}")
+    else:
+        messages.success(request, "Заявка отклонена!")
+    return redirect('admin')

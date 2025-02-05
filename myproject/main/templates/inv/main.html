@@ -195,7 +195,7 @@
     <div class="content">
         {% include 'inv/navbar.html' %}
         <div class="main-content">
-            <table>
+            <table class = "board">
                 <tr>
                     <th>id</th>
                     <th>Название</th>
@@ -219,22 +219,17 @@
         </div>
     </div>
 
-    <!-- Модальное окно -->
-    <div id="orderModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h2>Подтвердите заказ</h2>
-            <p id="modalItemInfo">ID товара: <span id="modalItemIdDisplay"></span></p>
-            <p id="modalItemNameDisplay">Название товара: <span id="modalItemName"></span></p>
-            <form id="orderForm" action="{% url 'order' %}" method="post">
-                {% csrf_token %}
-                <input type="hidden" name="item_id" id="modalItemId" value="">
-                <label for="quantity">Количество:</label>
-                <input type="number" id="quantity" name="quantity" min="1" value="1">
-                <button type="submit">Подтвердить заказ</button>
-            </form>
-        </div>
+<!-- Модальное окно -->
+<div id="orderModal" class="modal">
+    <div class="modal-content">
+        <form id="orderForm" action="{% url 'create_request' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="item_id" id="modalItemId">
+            <label>Количество: <input type="number" name="quantity" min="1" required></label>
+            <button type="submit">Отправить заявку</button>
+        </form>
     </div>
+</div>
 
     <script>
         // Функция для открытия модального окна

@@ -27,4 +27,7 @@ urlpatterns = [
     path('test/', views.test, name='test'),
     path('logout/', views.logout, name='logout'),
     path('order/', views.create_request, name='order'),
+    path('create-request/', views.create_request_view, name='create_request'),
+    path('admin/approve/<int:request_id>/', views.approve_request, name='approve_request'),
+    path('admin/decline/<int:request_id>/', views.decline_request, name='decline_request'),
 ]
