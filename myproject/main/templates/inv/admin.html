@@ -128,6 +128,15 @@
         .admin_board form button:hover {
             background-color: #4cae4c;
         }
+        .logout_button {
+        background-color: red; /* Красный фон */
+        color: white;          /* Белый текст */
+        padding: 10px 20px;    /* Внутренние отступы для увеличения размера кнопки */
+        border: none;          /* Убираем границу */
+        border-radius: 5px;    /* Скругляем углы */
+        cursor: pointer;       /* Изменяем курсор при наведении */
+        margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
@@ -140,6 +149,11 @@
             <li><a href="#purchase_plan">План закупок</a></li>
             <li><a href="#reports">Отчеты</a></li>
         </ul>
+        <div>
+            <form action="{% url 'logout' %}">
+                <button class="logout_button">Выход</button>
+            </form>
+        </div>
     </div>
     <div class="content">
         <div class="main-content">
