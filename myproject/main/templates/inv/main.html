@@ -201,14 +201,14 @@
                     <th>Название</th>
                     <th>Категория</th>
                     <th>Наличие</th>
-                    <th>Заказать</th>
+                    <th></th>
                 </tr>
-                {% for id, name, a, b in inventory.results %}
+                {% for id, name, amount, category in inventory.results %}
                 <tr>
                     <td>{{id}}</td>
                     <td>{{name}}</td>
-                    <td>{{a}}</td>
-                    <td>{{b}}</td>
+                    <td>{{category}}</td>
+                    <td>{{amount}}</td>
                     <td>
                         <!-- Кнопка для открытия модального окна -->
                         <button type="button" onclick="openModal({{id}}, '{{name}}')">Заказать</button>
