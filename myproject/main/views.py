@@ -49,6 +49,8 @@ def admin(request):
     context = {}
     context['inventory'] = datahook_lib.fetch_inventory()
     context['users'] = datahook_lib.fetch_all_users('user')
+    context['orders'] = datahook_lib.fetch_all_requests('to_pin_element')
+    context['plan'] = datahook_lib.fetch_plan()
     return render(request, 'inv/admin.html', context=context)
 
 def test(request):

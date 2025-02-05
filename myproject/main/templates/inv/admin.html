@@ -152,21 +152,27 @@
                     <input type="number" id="item_quantity" name="item_quantity">
                     <button type="submit">Добавить</button>
                 </form>
-                <table class="board">
-                    <tr>
-                        <th>Название</th>
-                        <th>Количество</th>
-                        <th>Действия</th>
-                    </tr>
-                    {% for id, name, a, b in results %}
-                    <tr>
-                        <th>{{id}}</th> 
-                        <th>{{name}}</th> 
-                        <th>{{a}}</th> 
-                        <th>{{b}}</th>
-                    </tr>
-                {% endfor %} 
-                </table>
+            <table class="board">
+                <tr>
+                    <th>id</th>
+                    <th>Название</th>
+                    <th>Категория</th>
+                    <th>Наличие</th>
+                    <th></th>
+                </tr>
+                {% for id, name, amount, category in inventory.results %}
+                <tr>
+                    <td>{{id}}</td>
+                    <td>{{name}}</td>
+                    <td>{{category}}</td>
+                    <td>{{amount}}</td>
+                    <td>
+                        <!-- Кнопка для открытия модального окна -->
+                        <button type="button" onclick="openModal({{id}}, '{{name}}')">Заказать</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
             </div>
             <div class="admin_board" id="users">
                 <h2>Пользователи</h2>
@@ -180,34 +186,48 @@
                     </select>
                     <button type="submit">Добавить</button>
                 </form>
-                <table class="board">
-                    <tr>
-                        <th>Имя пользователя</th>
-                        <th>Роль</th>
-                        <th>Действия</th>
-                    </tr>
-                    <tr>
-                        <td>Пользователь 1</td>
-                        <td>Пользователь</td>
-                        <td><button>Назначить</button> <button>Удалить</button></td>
-                    </tr>
-                </table>
+            <table class="board">
+                <tr>
+                    <th>id</th>
+                    <th>Логин</th>
+                    <th>Имя</th>
+                    <th>Фамилия</th>
+                    <th>Дата Создания</th>
+                </tr>
+                {% for id, login, firstname, lastname, date in users.results %}
+                <tr>
+                    <td>{{id}}</td>
+                    <td>{{login}}</td>
+                    <td>{{firstname}}</td>
+                    <td>{{lastname}}</td>
+                    <td>{{date}}</td>
+                    <td>
+                        <!-- Кнопка для открытия модального окна -->
+                        <!-- <button type="button" onclick="openModal({{id}}, '{{name}}')">Заказать</button> -->
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
             </div>
             <div class="admin_board" id="requests">
                 <h2>Заявки</h2>
                 <table class="board">
                     <tr>
                         <th>ID заявки</th>
+                        <th>Название предмета</th>
                         <th>Пользователь</th>
-                        <th>Статус</th>
+                        <th>Количество</th>
                         <th>Действия</th>
                     </tr>
+                    {% for reqid, itemid, itemname, username, amount, reqdate, description in orders.results %}
                     <tr>
-                        <td>1</td>
-                        <td>Пользователь 1</td>
-                        <td>В ожидании</td>
-                        <td><button>Просмотреть</button></td>
+                        <td>{{reqid}}</td>
+                        <td>{{itemname}}</td>
+                        <td>{{username}}</td>
+                        <td>{{amount}}</td>
+                        <td></td>
                     </tr>
+                    {% endfor %}
                 </table>
             </div>
             <div class="admin_board" id="purchase_plan">
@@ -219,12 +239,20 @@
                 </form>
                 <table class="board">
                     <tr>
-                        <th>Элемент плана</th>
+                        <th>Предмет</th>
+                        <th>Количество</th>
+                        <th>Цена</th>
+                        <th>Поставщик</th>
                         <th>Действия</th>
                     </tr>
                     <tr>
-                        <td>Элемент 1</td>
-                        <td><button>Удалить</button></td>
+                        {% for id, name, cost, amount, provider in plan.results %}
+                        <td>{{name}}</td>
+                        <td>{{amount}}</td>
+                        <td>{{cost}}</td>
+                        <td>{{provider}}</td>
+                        <td></td>
+                    {% endfor %}
                     </tr>
                 </table>
             </div>
