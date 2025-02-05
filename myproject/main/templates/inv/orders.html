@@ -144,6 +144,19 @@ button {
 button:hover {
     background-color: #4cae4c;
 }
+.board {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .board th, .board td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        .board th {
+            background-color: #f2f2f2;
+        }
 
 </style>
     
@@ -154,11 +167,22 @@ button:hover {
         <div class="main-content">
             <h2>Ваши заказы</h2>
             <div class="orders-container">
-                <div class="order">
-                    <h3>Нет заказов</h3>
-                    <p>-</p>
-                    <p>-</p>
-                </div>
+                <table class="board">
+                <tr>
+                    <th>Вид заявки</th>
+                    <th>Дата заявки</th>
+                    <th>Количество</th>
+                    <th>Комментарий</th>
+                </tr>
+                {% for reqid, reqtype, itemid, itemname, amount, time, description in sentreqs.results %}
+                <tr>
+                    <td>{{reqtype}}</td>
+                    <td>{{time}}</td>
+                    <td>{{amount}}</td>
+                    <td>{{description}}</td>
+                </tr>
+                {% endfor %}
+            </table>
             </div>
             <h2>Действующие заказы</h2>
             <div class="available-container">

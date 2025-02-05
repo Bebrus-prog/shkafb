@@ -38,7 +38,9 @@ def index(request):
 
 @check_login()
 def orders(request):
-    return render(request, 'inv/orders.html')
+    context = {}
+    context['sentreqs'] = datahook_lib.fetch_sent_requests(request.session.session_key, request.META['REMOTE_ADDR'])
+    return render(request, 'inv/orders.html', context=context)
 
 @check_login()
 def profile(request):
