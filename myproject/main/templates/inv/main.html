@@ -167,26 +167,15 @@
 </head>
 <body>
     <div class="sidebar">
-        <h2>Фильтры</h2>
+        <h2>Фильтры</h2 method = "post">
         <div class="filters">
-            <h3>Категория</h3>
+            <h3>Искать по</h3>
+            <input type="text">
+            <h3>Сортировать по</h3>
             <select>
-                <option value="all">Все категории</option>
-                <option value="football">Футбол</option>
-                <option value="basketball">Баскетбол</option>
-                <option value="tennis">Теннис</option>
-            </select>
-            <h3>Состояние</h3>
-            <select>
-                <option value="all">Все состояния</option>
-                <option value="new">Новое</option>
-                <option value="used">Б/у</option>
-            </select>
-            <h3>Наличие</h3>
-            <select>
-                <option value="all">Любое</option>
-                <option value="free">Свободные</option>
-                <option value="busy">Занятые</option>
+                <option value="abc">Алфавиту</option>
+                <option value="count">Количество</option>
+                <option value="used">Состояние</option>
             </select>
             <p></p>
             <button>Применить фильтры</button>
@@ -199,7 +188,7 @@
                 <tr>
                     <th>id</th>
                     <th>Название</th>
-                    <th>Категория</th>
+                    <th>Количество</th>
                     <th>Наличие</th>
                     <th></th>
                 </tr>
