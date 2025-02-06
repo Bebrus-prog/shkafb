@@ -93,17 +93,20 @@
         <div class="profile-section">
             <h2>Профиль</h2>
             <div class="profile-info">
-                <label for="name">Имя и фамилия:</label>
-                <label type="text" id="name" name="name" value="" readonly>
-                <label for="login">Логин:</label>
-                <label type="text" id="login" name="login" value="" readonly>
-                <label for="role">Роль:</label>
-                <input type="text" id="role" name="role" value="Ученик" readonly>
+                <label>Имя: {{firstname}}</label>
+                <label>Фамилия:{{lastname}}</label>
+                <label>Логин:{{login}}</label>
+                <label>Роль:{{role}}</label>
             </div>
         </div>
         <div>
             <form action="{% url 'logout' %}">
                 <button class="logout_button">Выход</button>
+            </form>
+        </div>
+        <div>
+            <form action="{% url 'change_password' %}">
+                <button>Смена пароля</button>
             </form>
         </div>
     </div>

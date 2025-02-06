@@ -69,3 +69,11 @@ def create_request(request):
     print(request.POST)
     datahook_lib.create_request('to_pin_element', request.POST['item_id'], int(request.POST['quantity']), request.session.session_key, request.META['REMOTE_ADDR'])
     return redirect('/')
+
+@check_login()
+def change_pass(request):
+    if request.POST:
+        if request.POST.get('newpass', '') == request.POST.get('checkpass', ''):
+            datahook_lib.change_password(request.session.session_key, request.META['REMOTE_ADDR'], request.POST['oldpass'], request.POST['newpass'])
+            return redirect('/index/')
+    return render(request, 'inv/changepassword.html')
