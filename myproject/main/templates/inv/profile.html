@@ -85,6 +85,19 @@
         cursor: pointer;       /* Изменяем курсор при наведении */
         margin-bottom: 20px;
         }
+        .board {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .board th, .board td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        .board th {
+            background-color: #f2f2f2;
+        }
     </style>
 </head>
 <body>
@@ -105,6 +118,32 @@
             <form action="{% url 'logout' %}">
                 <button class="logout_button">Выход</button>
             </form>
+        </div>
+        <div>
+            <h2>my belongings</h2>
+            <table class="board">
+                    <tr>
+                        <th>item name</th>
+                        <th>amount</th>
+                        <th>date</th>
+                        <th>description</th>
+                        <th>Действия</th>
+                    </tr>
+                    {% for id, itemid, name, amount, date, description in bels.results %}
+                    <tr>
+                        <td>{{name}}</td>
+                        <td>{{amount}}</td>
+                        <td>{{date}}</td>
+                        <td>{{desription}}</td>
+                        <td>
+
+                            <form action="{% url 'return_item' id %}">
+                                <button type="submit">return</button>
+                            </form>
+                        </td>
+                        {% endfor %}
+                    </tr>
+                </table>
         </div>
     </div>
 </body>

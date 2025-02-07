@@ -181,9 +181,9 @@
                     <td>{{category}}</td>
                     <td>{{amount}}</td>
                     <td>
-                        <!-- Кнопка для открытия модального окна -->
-                        <!-- <button type="button" onclick="openModal({{id}}, '{{name}}')">Заказать</button>
-                    </tr> -->
+                        <button type="button">edit</button>
+                        <!-- edit window should appear  -->
+                    </tr> 
                     </td>
                 {% endfor %}
             </table>
@@ -286,7 +286,7 @@
             </div>
             <div class="admin_board" id="reports">
                 <h2>Отчеты</h2>
-                <form>
+                <!-- <form>
                     <label for="report_type">Тип отчета:</label>
                     <select id="report_type" name="report_type">
                         <option value="inventory">Инвентарь</option>
@@ -294,7 +294,8 @@
                         <option value="requests">Заявки</option>
                     </select>
                     <button type="submit">Создать отчет</button>
-                </form>
+                </form> -->
+                {{report}}
             </div>
         </div>
     </div>

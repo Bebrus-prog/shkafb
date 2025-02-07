@@ -6,7 +6,6 @@ from django.contrib import messages
 def check_login(admin_req=False):
     def decorator(func):
         def wrapper(*args, **kwargs):
-            print(args[0].session.session_key, args[0].META['REMOTE_ADDR'])
             session = datahook_lib.session_check(args[0].session.session_key, args[0].META['REMOTE_ADDR'], admin_needed=admin_req)
             if session['error'] == 'no_result':
                 return redirect('/index') 
@@ -45,7 +44,9 @@ def orders(request):
 
 @check_login()
 def profile(request):
-    return render(request, 'inv/profile.html')
+    context = {}
+    context['bels'] = datahook_lib.fetch_my_belongings(request.session.session_key, request.META['REMOTE_ADDR'])
+    return render(request, 'inv/profile.html', context=context)
 
 @check_login(admin_req=True)
 def admin(request):
@@ -54,6 +55,7 @@ def admin(request):
     context['users'] = datahook_lib.fetch_all_users('user')
     context['orders'] = datahook_lib.fetch_all_requests('to_pin_element')
     context['plan'] = datahook_lib.fetch_plan()
+    context['report'] = datahook_lib.create_report()
     return render(request, 'inv/admin.html', context=context)
 
 def test(request):
@@ -81,3 +83,8 @@ def approve_request(request, id):
 def reject_request(request, id):
     datahook_lib.decline_request(id)
     return redirect('/admin/')
+
+@check_login()
+def return_item(request, id):
+    datahook_lib.return_my_belonging(id, request.session.session_key, request.META['REMOTE_ADDR'])
+    return redirect('/profile/')

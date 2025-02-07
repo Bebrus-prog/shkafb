@@ -29,4 +29,5 @@ urlpatterns = [
     path('order/', views.create_request, name='order'),
     path('reject/<int:id>', views.reject_request, name='reject'),
     path('approve/<int:id>', views.approve_request, name='approve'),
+    path('return/<int:id>', views.return_item, name='return_item'),
 ]
