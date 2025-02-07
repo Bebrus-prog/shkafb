@@ -27,4 +27,6 @@ urlpatterns = [
     path('test/', views.test, name='test'),
     path('logout/', views.logout, name='logout'),
     path('order/', views.create_request, name='order'),
+    path('reject/<int:id>', views.reject_request, name='reject'),
+    path('approve/<int:id>', views.approve_request, name='approve'),
 ]

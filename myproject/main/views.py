@@ -5,8 +5,9 @@ from django.contrib import messages
 
 def check_login(admin_req=False):
     def decorator(func):
-        def wrapper(request):
-            session = datahook_lib.session_check(request.session.session_key, request.META['REMOTE_ADDR'], admin_needed=admin_req)
+        def wrapper(*args, **kwargs):
+            print(args[0].session.session_key, args[0].META['REMOTE_ADDR'])
+            session = datahook_lib.session_check(args[0].session.session_key, args[0].META['REMOTE_ADDR'], admin_needed=admin_req)
             if session['error'] == 'no_result':
                 return redirect('/index') 
             if session['error'] == 'no_permission':
@@ -14,7 +15,7 @@ def check_login(admin_req=False):
                     return redirect('/')
                 else:
                     return redirect('admin/')
-            return func(request)
+            return func(*args, **kwargs)
         return wrapper
     return decorator
 
@@ -65,7 +66,18 @@ def logout(request):
     datahook_lib.end_session(request.session.session_key, request.META['REMOTE_ADDR'])
     return redirect('/index/')
 
+@check_login()
 def create_request(request):
     print(request.POST)
     datahook_lib.create_request('to_pin_element', request.POST['item_id'], int(request.POST['quantity']), request.session.session_key, request.META['REMOTE_ADDR'])
     return redirect('/')
+
+@check_login(True)
+def approve_request(request, id):
+    datahook_lib.approve_request(id)
+    return redirect('/admin/')
+
+@check_login(True)
+def reject_request(request, id):
+    datahook_lib.decline_request(id)
+    return redirect('/admin/')

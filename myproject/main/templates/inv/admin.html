@@ -239,7 +239,21 @@
                         <td>{{itemname}}</td>
                         <td>{{username}}</td>
                         <td>{{amount}}</td>
-                        <td></td>
+                        <td>
+                            {% csrf_token %}
+
+                            <form action="{% url 'approve' reqid %}">
+                                <button>
+                                    approve
+                                </button>
+                            </form>
+
+                            <form action="{% url 'reject' reqid %}">
+                                <button>
+                                    reject
+                                </button>
+                            </form>
+                        </td>
                     </tr>
                     {% endfor %}
                 </table>
