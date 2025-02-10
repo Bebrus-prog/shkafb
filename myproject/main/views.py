@@ -110,14 +110,14 @@ def cancel_request(request):
 @check_login(True)
 def edit_item(request):
     data = request.POST
-    datahook_lib.edit_inventory_object(data['id'], data['name'], data['amount'], data['status'], request.session.session_key, request.META['REMOTE_ADDR'])
+    datahook_lib.edit_inventory_object(data['id'], data['name'], int(data['amount']), int(data['status']), request.session.session_key, request.META['REMOTE_ADDR'])
     return redirect('/admin/')
 
 
 @check_login(True)
 def add_item(request):
     data = request.POST
-    datahook_lib.add_to_inventory(data['name'], data['amount'], data['status'], request.session.session_key, request.META['REMOTE_ADDR'])
+    datahook_lib.add_to_inventory(data['name'], data['amount'], int(data['status']), request.session.session_key, request.META['REMOTE_ADDR'])
     return redirect('/admin/')
 
 

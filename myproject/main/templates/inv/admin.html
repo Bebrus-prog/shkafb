@@ -137,6 +137,47 @@
         cursor: pointer;       /* Изменяем курсор при наведении */
         margin-bottom: 20px;
         }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 300px;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            right: 10px;
+            top: 5px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .modal-actions {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .modal-input {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            box-sizing: border-box;
+        }
     </style>
 </head>
 <body>
@@ -157,6 +198,28 @@
     </div>
     <div class="content">
         <div class="main-content">
+            <div id="editModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h3>Редактирование количества</h3>
+                    <div>
+                        <form method = "post">
+                            <input type="number" name="id" min="0">
+                            <button onclick="handleRemove()" class="modal-actions">Удалить</button>
+                        </form>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <form action = "{% url 'edit_item' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="text" name="name"> Название 
+                            <input type="number" name="amount"> количество
+                            <input type="number" name="status">Статус
+                            <button onclick="handleAdd()" class="modal-actions">Добавить</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        
             <div class="admin_board" id="inventory">
                 <h2>Инвентарь</h2>
                 <form>
@@ -181,9 +244,8 @@
                     <td>{{category}}</td>
                     <td>{{amount}}</td>
                     <td>
-                        <button type="button">edit</button>
-                        <!-- edit window should appear  -->
-                    </td>
+                        <button type="button" onclick="openEditModal({{id}})">edit</button>
+                    </td>                        
                 </tr>
                 {% endfor %}
             </table>
@@ -299,5 +361,37 @@
             </div>
         </div>
     </div>
+    <script>
+        let currentItemId = null;
+        function openEditModal(itemId) {
+            currentItemId = itemId;
+            document.getElementById('editModal').style.display = 'block';
+        }
+        function closeModal() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+        function handleRemove() {
+            const amount = document.getElementById('removeAmount').value;
+            if(amount > 0) {
+                // Здесь должна быть логика отправки запроса на сервер
+                console.log(`Удалить ${amount} единиц у элемента ${currentItemId}`);
+                closeModal();
+            }
+        }
+        function handleAdd() {
+            const amount = document.getElementById('addAmount').value;
+            if(amount > 0) {
+                // Здесь должна быть логика отправки запроса на сервер
+                console.log(`Добавить ${amount} единиц к элементу ${currentItemId}`);
+                closeModal();
+            }
+        }
+        window.onclick = function(event) {
+            if(event.target.classList.contains('modal')) {
+                closeModal();
+            }
+        }
+        document.querySelector('.close').onclick = closeModal;
+    </script>
 </body>
 </html>
