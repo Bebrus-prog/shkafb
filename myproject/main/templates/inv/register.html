@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login and Registration Page</title>
+    <title>Registration Page</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -74,19 +74,21 @@
             text-decoration: underline;
         }
 
-        .register-button {
+        .login-link {
             margin-top: 10px;
-            background-color: #337ab7;
+            display: block;
+            color: #337ab7;
+            text-decoration: none;
         }
 
-        .register-button:hover {
-            background-color: #286090;
+        .login-link:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Login</h1>
+        <h1>Registration</h1>
         <form method="post">
             {% csrf_token %}
             <div class="form-group">
@@ -97,13 +99,13 @@
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required>
             </div>
-            <button type="submit">Login</button>
+            <div class="form-group">
+                <label for="confirm_password">Confirm Password:</label>
+                <input type="password" id="confirm_password" name="confirm_password" required>
+            </div>
+            <button type="submit">Register</button>
         </form>
-        <form method="post">
-        {% csrf_token}            
-            Don't have an account? <a href="/register">Register here</a>
-        </form>
-
+        <p>Already have an account? <a href="/login" class="login-link">Login here</a></p>
     </div>
 </body>
 </html>
