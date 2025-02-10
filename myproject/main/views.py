@@ -117,26 +117,26 @@ def edit_item(request):
 @check_login(True)
 def add_item(request):
     data = request.POST
-    datahook_lib.add_to_inventory(data['name'], data['amount'], int(data['status']), request.session.session_key, request.META['REMOTE_ADDR'])
+    datahook_lib.add_to_inventory(data['name'], int(data['amount']), int(data['status']), request.session.session_key, request.META['REMOTE_ADDR'])
     return redirect('/admin/')
 
 
 @check_login(True)
 def delete_item(request):
-    datahook_lib.remove_from_inventory(request.POST['id'], request.session.session_key, request.META['REMOTE_ADDR'])
+    datahook_lib.remove_from_inventory(int(request.POST['id']), request.session.session_key, request.META['REMOTE_ADDR'])
     return redirect('/admin/')
 
 
 @check_login(True)
 def add_plan(request):
     data = request.POST
-    datahook_lib.add_to_plan(data['name'], data['price'], data['amount'], data['supplier'])
+    datahook_lib.add_to_plan(data['name'], int(data['price']), int(data['amount']), data['supplier'])
     return redirect('/admin/')
 
 
 @check_login(True)
 def delete_plan(request):
-    datahook_lib.remove_from_plan(request.POST['id'])
+    datahook_lib.remove_from_plan(int(request.POST['id']))
     return redirect('/admin/')
 
 

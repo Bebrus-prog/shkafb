@@ -209,11 +209,12 @@
                         </form>
                     </div>
                     <div style="margin-top: 10px;">
-                        <form action = "{% url 'edit_item' %}" method="POST">
+                        <form action = "{% url 'edit_item' %}" method="POST" name="{{name}}" amount="number" status="0">
                             {% csrf_token %}
+                            <input type="hidden" name="id" id="modalItemId">
                             <input type="text" name="name"> Название 
                             <input type="number" name="amount"> количество
-                            <input type="number" name="status">Статус
+                            <input type="number" name="status"> Статус
                             <button onclick="handleAdd()" class="modal-actions">Добавить</button>
                         </form>
                     </div>
@@ -365,6 +366,7 @@
         let currentItemId = null;
         function openEditModal(itemId) {
             currentItemId = itemId;
+            document.getElementById('modalItemId').setAttribute('value', currentItemId  );
             document.getElementById('editModal').style.display = 'block';
         }
         function closeModal() {
