@@ -183,8 +183,8 @@
                     <td>
                         <button type="button">edit</button>
                         <!-- edit window should appear  -->
-                    </tr> 
                     </td>
+                </tr>
                 {% endfor %}
             </table>
             </div>
@@ -215,10 +215,7 @@
                     <td>{{firstname}}</td>
                     <td>{{lastname}}</td>
                     <td>{{date}}</td>
-                    <td>
-                        <!-- Кнопка для открытия модального окна -->
-                        <!-- <button type="button" onclick="openModal({{id}}, '{{name}}')">Заказать</button> -->
-                    </td>
+                    <td></td>
                 </tr>
                 {% endfor %}
             </table>
@@ -240,17 +237,20 @@
                         <td>{{username}}</td>
                         <td>{{amount}}</td>
                         <td>
-                            {% csrf_token %}
 
-                            <form action="{% url 'approve' reqid %}">
+                            <form action="{% url 'approve' %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="id" value="{{ reqid }}">
                                 <button>
-                                    approve
+                                    Принять
                                 </button>
                             </form>
 
-                            <form action="{% url 'reject' reqid %}">
+                            <form action="{% url 'reject' %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="id" value="{{ reqid }}">
                                 <button>
-                                    reject
+                                    Отклонить
                                 </button>
                             </form>
                         </td>

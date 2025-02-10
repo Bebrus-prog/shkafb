@@ -120,13 +120,13 @@
             </form>
         </div>
         <div>
-            <h2>my belongings</h2>
+            <h2>Прикреплённый инвентарь</h2>
             <table class="board">
                     <tr>
-                        <th>item name</th>
-                        <th>amount</th>
-                        <th>date</th>
-                        <th>description</th>
+                        <th>Название предмета</th>
+                        <th>Количество</th>
+                        <th>Дата получения</th>
+                        <th>Описание</th>
                         <th>Действия</th>
                     </tr>
                     {% for id, itemid, name, amount, date, description in bels.results %}
@@ -136,9 +136,37 @@
                         <td>{{date}}</td>
                         <td>{{desription}}</td>
                         <td>
-
-                            <form action="{% url 'return_item' id %}">
-                                <button type="submit">return</button>
+                            <form action="{% url 'return_item' %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="id" value="{{ id }}">
+                                <button type="submit">Вернуть</button>
+                            </form>
+                        </td>
+                        {% endfor %}
+                    </tr>
+                </table>
+        </div>
+        <div>
+            <h2>Заявки на рассмотрении</h2>
+            <table class="board">
+                    <tr>
+                        <th>Название предмета</th>
+                        <th>Количество</th>
+                        <th>Дата заявки</th>
+                        <th>Описание</th>
+                        <th>Действия</th>
+                    </tr>
+                    {% for id, reqtype, itemid, name, amount, date, description in reqs.results %}
+                    <tr>
+                        <td>{{name}}</td>
+                        <td>{{amount}}</td>
+                        <td>{{date}}</td>
+                        <td>{{desription}}</td>
+                        <td>
+                            <form action="{% url 'cancel_request' %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="id" value="{{ id }}">
+                                <button type="submit">Отменить</button>
                             </form>
                         </td>
                         {% endfor %}
