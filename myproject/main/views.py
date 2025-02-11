@@ -154,6 +154,8 @@ def assign_admin(request):
 def register_page(request):
     if request.method == 'POST':
         username = request.POST.get('username')
+        firstname = request.POST.get('firstname')
+        lastname = request.POST.get('lastname')
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirm_password')
 
@@ -162,7 +164,7 @@ def register_page(request):
             return redirect('register')
 
         # Регистрация через datahook
-        result = datahook_lib.register_user(username, password)
+        result = datahook_lib.register_user(username, firstname, password, lastname )
         
         if result.get('error'):
             error = result['error']
