@@ -178,6 +178,19 @@
             margin: 5px 0;
             box-sizing: border-box;
         }
+        .modal-content .form-field {
+            margin: 10px 0;
+        }
+
+        .modal-content .form-field label {
+            display: inline-block;
+            width: 150px;
+        }
+
+        .modal-content .form-field input {
+            width: 200px;
+            padding: 5px;
+        }
     </style>
 </head>
 <body>
@@ -197,6 +210,20 @@
         </div>
     </div>
     <div class="content">
+        <div id="addPlanModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closePlanModal()">&times;</span>
+                <h3>Добавить в план закупок</h3>
+                <form action="{% url 'add_plan' %}" method="POST"> 
+                    {% csrf_token %}
+                    <input type="text" name="name"> Название 
+                    <input type="number" name="amount"> Цена
+                    <input type="number" name="amount"> Количество
+                    <input type="number" name="status"> Поставщик
+                    <button type="submit" class="modal-actions">Добавить</button>
+                </form>
+            </div>
+        </div>
         <div class="main-content">
             <div id="editModal" class="modal">
                 <div class="modal-content">
@@ -323,11 +350,7 @@
             </div>
             <div class="admin_board" id="purchase_plan">
                 <h2>План закупок</h2>
-                <form>
-                    <label for="plan_item">Элемент плана:</label>
-                    <input type="text" id="plan_item" name="plan_item">
-                    <button type="submit">Добавить</button>
-                </form>
+                <button onclick="openPlanModal()">Добавить</button>
                 <table class="board">
                     <tr>
                         <th>Предмет</th>
@@ -342,7 +365,12 @@
                         <td>{{amount}}</td>
                         <td>{{cost}}</td>
                         <td>{{provider}}</td>
-                        <td></td>
+                        <td><form action="{url 'delete_plan'}" method="post">
+                            <input type="hidden" name="id" value="{{ reqid }}">
+                            <button>
+                                delete
+                            </button>
+                        </form></td>
                     {% endfor %}
                     </tr>
                 </table>
@@ -394,6 +422,22 @@
             }
         }
         document.querySelector('.close').onclick = closeModal;
+
+        function openPlanModal() {
+        document.getElementById('addPlanModal').style.display = 'block';
+    }
+
+    function closePlanModal() {
+        document.getElementById('addPlanModal').style.display = 'none';
+    }
+
+    // Обновляем глобальный обработчик кликов
+    window.onclick = function(event) {
+        if(event.target.classList.contains('modal')) {
+            closeModal();
+            closePlanModal();
+        }
+    }
     </script>
 </body>
 </html>
