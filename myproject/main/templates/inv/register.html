@@ -88,12 +88,12 @@
 </head>
 <body>
     <div class="container">
-        <h1>Registration</h1>
+        <h1>Register</h1>
         <form method="post">
             {% csrf_token %}
             <div class="form-group">
-                <label for="login">Login:</label>
-                <input type="text" id="login" name="login" required>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
             </div>
             <div class="form-group">
                 <label for="password">Password:</label>
@@ -105,7 +105,7 @@
             </div>
             <button type="submit">Register</button>
         </form>
-        <p>Already have an account? <a href="/login" class="login-link">Login here</a></p>
+        <p>Already have an account? <a href="/index">Login here</a></p>
     </div>
 </body>
 </html>

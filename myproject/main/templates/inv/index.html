@@ -99,9 +99,8 @@
             </div>
             <button type="submit">Login</button>
         </form>
-        <form method="post">
-        {% csrf_token}            
-            Don't have an account? <a href="/register">Register here</a>
+        <form method="post">           
+        Don't have an account? <a href="{% url 'register' %}">Register here</a>
         </form>
 
     </div>
