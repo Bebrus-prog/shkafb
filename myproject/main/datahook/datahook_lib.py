@@ -362,36 +362,26 @@ def pin_inventory_element(eid: int, username: str, pinning_amount: int, descript
 
         return {"error": None}
 
-def register_user(username: str, first_name: str, password: str, second_name: str = ''):
-    # регистрация нового пользователя
-    
+def register_user(username: str, password: str):
     username = username.lower().strip()
-
-    # проверка на существование пользователя в базе
+    
+    # Проверка существующего пользователя
     cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
-    existing_user = cursor.fetchone()
-    if existing_user:
-        # error = user_existing, если пользователь уже существует в базе
+    if cursor.fetchone():
         return {"error": "user_existing"}
 
-    first_name = first_name.strip()
     pass_hash = hash_password(password)
 
-    if login_check_format(username)["error"]:
-        # возврат ошибки при проверке никнейма (error = length / symbol)
-        return {"error": login_check_format(username)["error"]}
-    
-    if product_name_check_format(first_name.lower())["error"]:
-        # возврат ошибки при проверке имени пользователя (error = length / symbol)
-        return {"error": product_name_check_format(first_name.lower())["error"]}
-    
-    if second_name:
-        second_name = second_name.strip()
-        if product_name_check_format(second_name.lower())["error"]:
-            # возврат ошибки при проверке фамилии пользователя (error = length / symbol)
-            return {"error": product_name_check_format(second_name.lower())["error"]}
+    # Проверка формата логина
+    username_check = login_check_format(username)
+    if username_check["error"]:
+        return {"error": username_check["error"]}
 
-    cursor.execute("INSERT INTO users (username, permission, first_name, second_name, pass_hash, creation_date) VALUES (?, 'user', ?, ?, ?, ?)", (username, first_name, second_name, pass_hash, get_date()))
+    # Обновленный INSERT без first_name
+    cursor.execute(
+        "INSERT INTO users (username, permission, pass_hash, creation_date) VALUES (?, 'user', ?, ?)",
+        (username, pass_hash, get_date())
+    )
     db.commit()
     return {"error": None}
 

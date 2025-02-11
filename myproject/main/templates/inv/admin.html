@@ -230,10 +230,6 @@
                     <span class="close">&times;</span>
                     <h3>Редактирование количества</h3>
                     <div>
-                        <form method = "post">
-                            <input type="number" name="id" min="0">
-                            <button onclick="handleRemove()" class="modal-actions">Удалить</button>
-                        </form>
                     </div>
                     <div style="margin-top: 10px;">
                         <form action = "{% url 'edit_item' %}" method="POST" name="{{name}}" amount="number" status="0">
@@ -269,10 +265,18 @@
                 <tr>
                     <td>{{id}}</td>
                     <td>{{name}}</td>
-                    <td>{{category}}</td>
+                    <td>{{category}}</td> 
                     <td>{{amount}}</td>
                     <td>
                         <button type="button" onclick="openEditModal({{id}})">edit</button>
+                        <form action="{% url 'delete_item' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="id" value="{{id}}">
+                            <button>
+                                Удалить
+                            </button>
+                        </form>
+
                     </td>                        
                 </tr>
                 {% endfor %}
@@ -365,12 +369,12 @@
                         <td>{{amount}}</td>
                         <td>{{cost}}</td>
                         <td>{{provider}}</td>
-                        <td><form action="{url 'delete_plan'}" method="post">
-                            <input type="hidden" name="id" value="{{ reqid }}">
-                            <button>
-                                delete
-                            </button>
-                        </form></td>
+                        <td><form action="{% url 'delete_plan' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="id" value="{{id_}}">
+                            <button type="submit">Удалить</button>
+                        </form>
+                        </td>
                     {% endfor %}
                     </tr>
                 </table>
@@ -424,7 +428,7 @@
         document.querySelector('.close').onclick = closeModal;
 
         function openPlanModal() {
-        document.getElementById('addPlanModal').style.display = 'block';
+        document.getElementById("planModalId").setAttribute("value", id_plan);
     }
 
     function closePlanModal() {

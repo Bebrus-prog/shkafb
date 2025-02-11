@@ -38,4 +38,5 @@ urlpatterns = [
     path('delete_p/', views.delete_plan, name='delete_plan'),
     path('add_u/', views.add_user, name='add_user'),
     path('assign_a/', views.assign_admin, name='assign_admin'),
+    path('register/', views.register_page, name='register'),
 ]

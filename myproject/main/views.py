@@ -123,7 +123,7 @@ def add_item(request):
 
 @check_login(True)
 def delete_item(request):
-    datahook_lib.remove_from_inventory(int(request.POST['id']), request.session.session_key, request.META['REMOTE_ADDR'])
+    datahook_lib.remove_from_inventory(request.POST['id'], request.session.session_key, request.META['REMOTE_ADDR'])
     return redirect('/admin/')
 
 
@@ -151,3 +151,31 @@ def add_user(request):
 def assign_admin(request):
     datahook_lib.assign_administrator(request.POST['username'])
     return redirect('/admin/')
+
+def register_page(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
+
+        if password != confirm_password:
+            messages.error(request, 'Пароли не совпадают')
+            return redirect('register')
+
+        # Регистрация через datahook
+        result = datahook_lib.register_user(username, password)
+        
+        if result.get('error'):
+            error = result['error']
+            if error == 'user_existing':
+                messages.error(request, 'Логин уже занят')
+            elif error in ['length', 'symbol']:
+                messages.error(request, 'Некорректный формат логина')
+            else:
+                messages.error(request, 'Ошибка регистрации')
+            return redirect('register')
+        else:
+            messages.success(request, 'Регистрация успешна! Войдите в систему')
+            return redirect('index')
+    
+    return render(request, 'inv/register.html')
