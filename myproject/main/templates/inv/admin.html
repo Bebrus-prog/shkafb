@@ -231,9 +231,9 @@
                 <form action="{% url 'add_plan' %}" method="POST"> 
                     {% csrf_token %}
                     <input type="text" name="name"> Название 
-                    <input type="number" name="amount"> Цена
+                    <input type="number" name="price"> Цена
                     <input type="number" name="amount"> Количество
-                    <input type="number" name="status"> Поставщик
+                    <input type="text" name="supplier"> Поставщик
                     <button type="submit" class="modal-actions">Добавить</button>
                 </form>
             </div>
@@ -246,11 +246,11 @@
                     <div>
                     </div>
                     <div style="margin-top: 10px;">
-                        <form action = "{% url 'edit_item' %}" method="POST" name="{{name}}" amount="number" status="0">
+                        <form action = "{% url 'edit_item' %}" method="POST">
                             {% csrf_token %}
                             <input type="hidden" name="id" id="modalItemId">
                             <input type="text" name="name"> Название 
-                            <input type="number" name="amount"> количество
+                            <input type="number" name="amount"> Количество
                             <input type="number" name="status"> Статус
                             <button onclick="handleAdd()" class="modal-actions">Добавить</button>
                         </form>
@@ -381,12 +381,12 @@
                         <td>{{provider}}</td>
                         <td><form action="{% url 'delete_plan' %}" method="post">
                             {% csrf_token %}
-                            <input type="hidden" name="id" value="{{id_}}">
+                            <input type="hidden" name="id" value="{{id}}">
                             <button type="submit">Удалить</button>
                         </form>
                         </td>
-                    {% endfor %}
                     </tr>
+                    {% endfor %}
                 </table>
             </div>
             <div class="admin_board" id="reports">
@@ -457,17 +457,22 @@
         document.getElementById("planModalId").setAttribute("value", id_plan);
     }
 
-    function closePlanModal() {
-        document.getElementById('addPlanModal').style.display = 'none';
-    }
+    function openPlanModal() {
+    document.getElementById('addPlanModal').style.display = 'block';
+}
 
-    // Обновляем глобальный обработчик кликов
-    window.onclick = function(event) {
-        if(event.target.classList.contains('modal')) {
-            closeModal();
-            closePlanModal();
-        }
+function closePlanModal() {
+    document.getElementById('addPlanModal').style.display = 'none';
+}
+
+// Общий обработчик для всех модалок
+window.onclick = function(event) {
+    if (event.target.classList.contains('modal')) {
+        closeAddModal();
+        closeModal();
+        closePlanModal();
     }
+}
     </script>
 </body>
 </html>
