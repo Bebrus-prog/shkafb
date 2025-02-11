@@ -140,7 +140,6 @@ def delete_plan(request):
     return redirect('/admin/')
 
 
-@check_login(True)
 def add_user(request):
     data = request.POST
     datahook_lib.register_user(data['username'], data['firstname'], data['password'], data['secondname'])
